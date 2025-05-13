@@ -1,0 +1,17 @@
+services:
+  redis:
+    image: redis:6.0.9-alpine
+    restart: always
+    ports:
+      - 26379:6379
+    env_file:
+      - ./.env
+    command: sh -c "
+      redis-server --save 20 1 --loglevel warning --requirepass $${REDIS_PASSWORD}
+      && sudo systemctl restart redis
+      && echo REDISWILLRESTART"
+    volumes:
+      - cache:/data
+
+volumes:
+  cache:
