@@ -5,7 +5,7 @@ from os import getenv
 load_dotenv()
 
 class RedisManager:
-    def __init__(self, host="localhost", port=6379, password=None):
+    def __init__(self, host="redis", port=6379, password=None):
         self.host = host
         self.port = port
         self.password = password
@@ -26,5 +26,5 @@ class RedisManager:
         self.connection.close()
 
 
-CACHE_OBJECT = RedisManager(port=26379, password=getenv("REDIS_PASSWORD"))
+CACHE_OBJECT = RedisManager(password=getenv("REDIS_PASSWORD"))
 
