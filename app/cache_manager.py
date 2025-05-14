@@ -4,7 +4,6 @@ from os import getenv
 
 load_dotenv()
 
-
 class RedisManager:
     def __init__(self, host="localhost", port=6379, password=None):
         self.host = host
@@ -21,7 +20,7 @@ class RedisManager:
             Redis()
             return self
         except exceptions.AuthenticationError:
-            return None
+            self.connection.close()
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.connection.close()

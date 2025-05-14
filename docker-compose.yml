@@ -1,15 +1,24 @@
 services:
+
+  ssa_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    env_file:
+      - ./app/.env
+    depends_on:
+      - redis
+
   redis:
     image: redis:6.0.9-alpine
     restart: always
     ports:
       - 26379:6379
     env_file:
-      - ./.env
-    command: sh -c "
-      redis-server --save 20 1 --loglevel warning --requirepass $${REDIS_PASSWORD}
-      && sudo systemctl restart redis
-      && echo REDISWILLRESTART"
+      - ./app/.env
+    command: sh -c "redis-server --save 20 1 --loglevel warning --requirepass $${REDIS_PASSWORD}"
     volumes:
       - cache:/data
 
